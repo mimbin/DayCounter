@@ -13,26 +13,34 @@ struct ContentView: View {
     @State private var timer: Timer? = nil
     @State private var isRunning = false
     var body: some View {
-        VStack (spacing: 40){
-            //Display time
-            Text(timeString(from:elapsedTime))
-                .font(.system(size: 48, weight: .bold,design: .monospaced))
+        ZStack {
+            Image("AppBackground")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+            VStack (spacing: 40){
+                //Display time
+                Text(timeString(from:elapsedTime))
+                    .font(.system(size: 48, weight: .bold,design: .monospaced))
+                    .foregroundStyle(LinearGradient(colors: [.yellow, .orange], startPoint: .top, endPoint: .bottom))
+                //Buttons
+                HStack (spacing: 40){
+                    Button(isRunning ? "Stop" : "Start"){
+                        isRunning ? stopTimer() : startTimer()
+                    }
+                    .buttonStyle(.borderedProminent)
+                    
+                    Button("Reset"){
+                        resetTimer()
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(Color.white)
+                }
+                .padding()
+            }
+            .padding()
         }
-        .padding()
         
-        //Buttons
-        HStack (spacing: 40){
-            Button(isRunning ? "Stop" : "Start"){
-                isRunning ? stopTimer() : startTimer()
-            }
-            .buttonStyle(.borderedProminent)
-            
-            Button("Reset"){
-                resetTimer()
-            }
-            .buttonStyle(.bordered)
-        }
-        .padding()
     }
     // Mark: - Helper functions
     func startTimer(){
