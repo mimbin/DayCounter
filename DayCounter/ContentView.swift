@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var elapsedTime: TimeInterval = 0
     @State private var timer: Timer? = nil
     @State private var isRunning = false
+    @State private var generator = UIImpactFeedbackGenerator(style: .heavy)
     var body: some View {
         ZStack {
             Image("AppBackground")
@@ -26,11 +27,15 @@ struct ContentView: View {
                 //Buttons
                 HStack (spacing: 40){
                     Button(isRunning ? "Stop" : "Start"){
+                        generator.prepare()
+                        generator.impactOccurred()
                         isRunning ? stopTimer() : startTimer()
                     }
                     .buttonStyle(.borderedProminent)
                     
                     Button("Reset"){
+                        generator.prepare()
+                        generator.impactOccurred()
                         resetTimer()
                     }
                     .buttonStyle(.bordered)
